@@ -40,15 +40,13 @@ export default function Game() {
     });
   }, []);
 
-  if (createPlayerMutation.isPending) {
+  if (createPlayerMutation.isPending || !createPlayerMutation.data) {
     return (
       <div className="flex items-center justify-center h-screen bg-background">
-        <div className="text-2xl text-primary">Loading...</div>
+        <div className="text-2xl text-primary">Joining game...</div>
       </div>
     );
   }
-
-  if (!createPlayerMutation.data) return null;
 
   return (
     <div className="h-screen w-screen">
