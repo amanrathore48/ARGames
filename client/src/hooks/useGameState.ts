@@ -17,10 +17,20 @@ export function useGameState(playerId: number) {
     },
   });
 
+  const isWithinBoundaries = (position: Vector3) => {
+    // Main platform boundaries
+    const PLATFORM_SIZE = 10; // Half of the platform size
+    return Math.abs(position.x) <= PLATFORM_SIZE && Math.abs(position.z) <= PLATFORM_SIZE;
+  };
+
   const updatePosition = (movement: Vector3) => {
     const newPosition = playerPosition.current.clone().add(movement);
-    playerPosition.current.copy(newPosition);
-    updatePositionMutation.mutate(newPosition);
+
+    // Only update if within boundaries
+    if (isWithinBoundaries(newPosition)) {
+      playerPosition.current.copy(newPosition);
+      updatePositionMutation.mutate(newPosition);
+    }
   };
 
   return {
