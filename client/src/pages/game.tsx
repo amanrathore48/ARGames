@@ -6,15 +6,22 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useEffect } from "react";
+import { useLocation } from "wouter";
 
 export default function Game() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const [location] = useLocation();
+
+  // Parse URL parameters
+  const params = new URLSearchParams(window.location.search);
+  const nickname = params.get('nickname') || `Player${Math.floor(Math.random() * 1000)}`;
+  const mapType = params.get('map') || 'classic';
 
   const createPlayerMutation = useMutation({
     mutationFn: async () => {
       const res = await apiRequest("POST", "/api/players", {
-        name: `Player${Math.floor(Math.random() * 1000)}`,
+        name: nickname,
       });
       return res.json();
     },
@@ -44,8 +51,8 @@ export default function Game() {
 
   return (
     <div className="h-screen w-screen">
-      <Canvas shadows camera={{ position: [0, 5, 10], fov: 75 }}>
-        <Scene playerId={createPlayerMutation.data.id} />
+      <Canvas shadows camera={{ position: [0, 15, 20], fov: 75 }}>
+        <Scene playerId={createPlayerMutation.data.id} mapType={mapType} />
       </Canvas>
       {isMobile && <MobileControls />}
     </div>
