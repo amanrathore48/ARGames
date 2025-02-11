@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from "react";
 import { Vector3 } from "three";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -30,16 +29,18 @@ export function useGameState(playerId: number) {
   useEffect(() => {
     if (players) {
       // Update other players
-      const others = players.filter(player => player.id !== playerId).map(player => ({
-        ...player,
-        x: Number(player.x),
-        y: Number(player.y),
-        z: Number(player.z)
-      }));
+      const others = players
+        .filter((player) => player.id !== playerId)
+        .map((player) => ({
+          ...player,
+          x: Number(player.x),
+          y: Number(player.y),
+          z: Number(player.z),
+        }));
       setOtherPlayers(others);
 
       // Update current player position from server
-      const currentPlayer = players.find(player => player.id === playerId);
+      const currentPlayer = players.find((player) => player.id === playerId);
       if (currentPlayer) {
         // Update position directly without creating new instances
         const newPosition = new Vector3(
@@ -47,7 +48,11 @@ export function useGameState(playerId: number) {
           Number(currentPlayer.y),
           Number(currentPlayer.z)
         );
-        const positionCopy = new Vector3(newPosition.x, newPosition.y, newPosition.z);
+        const positionCopy = new Vector3(
+          newPosition.x,
+          newPosition.y,
+          newPosition.z
+        );
         playerPosition.current = positionCopy;
         setPosition(positionCopy);
       }
@@ -56,11 +61,15 @@ export function useGameState(playerId: number) {
 
   const updatePositionMutation = useMutation({
     mutationFn: async (position: Vector3) => {
-      const res = await apiRequest("PATCH", `/api/players/${playerId}/position`, {
-        x: position.x,
-        y: position.y,
-        z: position.z,
-      });
+      const res = await apiRequest(
+        "PATCH",
+        `/api/players/${playerId}/position`,
+        {
+          x: position.x,
+          y: position.y,
+          z: position.z,
+        }
+      );
       return res.json();
     },
   });
@@ -74,8 +83,11 @@ export function useGameState(playerId: number) {
   }, [playerId]);
 
   const isWithinBoundaries = (position: Vector3) => {
-    const PLATFORM_SIZE = 9;
-    return Math.abs(position.x) <= PLATFORM_SIZE && Math.abs(position.z) <= PLATFORM_SIZE;
+    const PLATFORM_SIZE = 8;
+    return (
+      Math.abs(position.x) <= PLATFORM_SIZE &&
+      Math.abs(position.z) <= PLATFORM_SIZE
+    );
   };
 
   const updatePosition = (movement: Vector3) => {
@@ -94,6 +106,7 @@ export function useGameState(playerId: number) {
 
   return {
     playerPosition: position,
+    otherPlayers: otherPlayers,
     updatePosition,
   };
 }

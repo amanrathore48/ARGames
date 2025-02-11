@@ -11,7 +11,6 @@ export default function Controls({ playerId }: { playerId: number }) {
     const moveSpeed = 0.3;
     const movement = { x: 0, y: 0, z: 0 };
 
-    // Apply movement based on active keys
     if (keys.current.has("w") || keys.current.has("arrowup")) {
       movement.z = -moveSpeed;
     }
@@ -25,9 +24,7 @@ export default function Controls({ playerId }: { playerId: number }) {
       movement.x = moveSpeed;
     }
 
-    // Only update if there's actual movement
     if (movement.x !== 0 || movement.z !== 0) {
-      console.log('Moving:', movement); // Debug log
       updatePosition(movement);
     }
   });
@@ -35,13 +32,13 @@ export default function Controls({ playerId }: { playerId: number }) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
-      console.log('Key down:', key); // Debug log
+      console.log("Key down:", key); // Debug log
       keys.current.add(key);
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
-      console.log('Key up:', key); // Debug log
+      console.log("Key up:", key); // Debug log
       keys.current.delete(key);
     };
 

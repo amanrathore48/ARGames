@@ -21,73 +21,73 @@ export default function Scene({ playerId, mapType }: SceneProps) {
 
   const renderMap = () => {
     switch (mapType) {
-      case 'platforms':
+      case "platforms":
         return (
           <>
-            <Platform 
-              position={new Vector3(0, -0.5, 0)} 
-              size={new Vector3(20, 1, 20)} 
+            <Platform
+              position={new Vector3(0, -0.5, 0)}
+              size={new Vector3(20, 1, 20)}
               color="#34495E"
             />
             {/* Elevated platforms in corners */}
-            <Platform 
-              position={new Vector3(7, 1, 7)} 
-              size={new Vector3(4, 1, 4)} 
+            <Platform
+              position={new Vector3(7, 1, 7)}
+              size={new Vector3(4, 1, 4)}
               color="#2980B9"
             />
-            <Platform 
-              position={new Vector3(-7, 1, -7)} 
-              size={new Vector3(4, 1, 4)} 
+            <Platform
+              position={new Vector3(-7, 1, -7)}
+              size={new Vector3(4, 1, 4)}
               color="#2980B9"
             />
-            <Platform 
-              position={new Vector3(7, 1, -7)} 
-              size={new Vector3(4, 1, 4)} 
+            <Platform
+              position={new Vector3(7, 1, -7)}
+              size={new Vector3(4, 1, 4)}
               color="#2980B9"
             />
-            <Platform 
-              position={new Vector3(-7, 1, 7)} 
-              size={new Vector3(4, 1, 4)} 
+            <Platform
+              position={new Vector3(-7, 1, 7)}
+              size={new Vector3(4, 1, 4)}
               color="#2980B9"
             />
           </>
         );
-      case 'maze':
+      case "maze":
         return (
           <>
-            <Platform 
-              position={new Vector3(0, -0.5, 0)} 
-              size={new Vector3(24, 1, 24)} 
+            <Platform
+              position={new Vector3(0, -0.5, 0)}
+              size={new Vector3(24, 1, 24)}
               color="#34495E"
             />
             {/* Maze walls */}
-            <Platform 
-              position={new Vector3(-6, 0.5, 0)} 
-              size={new Vector3(2, 2, 12)} 
+            <Platform
+              position={new Vector3(-6, 0.5, 0)}
+              size={new Vector3(2, 2, 12)}
               color="#2980B9"
             />
-            <Platform 
-              position={new Vector3(6, 0.5, 0)} 
-              size={new Vector3(2, 2, 12)} 
+            <Platform
+              position={new Vector3(6, 0.5, 0)}
+              size={new Vector3(2, 2, 12)}
               color="#2980B9"
             />
-            <Platform 
-              position={new Vector3(0, 0.5, 6)} 
-              size={new Vector3(12, 2, 2)} 
+            <Platform
+              position={new Vector3(0, 0.5, 6)}
+              size={new Vector3(12, 2, 2)}
               color="#2980B9"
             />
-            <Platform 
-              position={new Vector3(0, 0.5, -6)} 
-              size={new Vector3(12, 2, 2)} 
+            <Platform
+              position={new Vector3(0, 0.5, -6)}
+              size={new Vector3(12, 2, 2)}
               color="#2980B9"
             />
           </>
         );
       default: // classic
         return (
-          <Platform 
-            position={new Vector3(0, -0.5, 0)} 
-            size={new Vector3(20, 1, 20)} 
+          <Platform
+            position={new Vector3(0, -0.5, 0)}
+            size={new Vector3(20, 1, 20)}
             color="#34495E"
           />
         );
@@ -107,7 +107,10 @@ export default function Scene({ playerId, mapType }: SceneProps) {
       {renderMap()}
       <Player position={playerPosition} />
       {otherPlayers?.map((player) => (
-        <Player key={player.id} position={new Vector3(player.x, player.y, player.z)} />
+        <Player
+          key={player.id}
+          position={new Vector3(player.x, player.y, player.z)}
+        />
       ))}
       <Controls playerId={playerId} />
     </>
