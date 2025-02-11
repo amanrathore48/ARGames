@@ -11,35 +11,56 @@ export default function Controls({ playerId }: { playerId: number }) {
     const moveSpeed = 0.3; // Increased speed for better responsiveness
     const movement = new Vector3();
 
-    if (keys.current.has("w") || keys.current.has("arrowup")) movement.z -= moveSpeed;
-    if (keys.current.has("s") || keys.current.has("arrowdown")) movement.z += moveSpeed;
-    if (keys.current.has("a") || keys.current.has("arrowleft")) movement.x -= moveSpeed;
-    if (keys.current.has("d") || keys.current.has("arrowright")) movement.x += moveSpeed;
+    // Handle both WASD and arrow keys (normalized to lowercase)
+    if (keys.current.has("w") || keys.current.has("arrowup")) {
+      movement.z -= moveSpeed;
+    }
+    if (keys.current.has("s") || keys.current.has("arrowdown")) {
+      movement.z += moveSpeed;
+    }
+    if (keys.current.has("a") || keys.current.has("arrowleft")) {
+      movement.x -= moveSpeed;
+    }
+    if (keys.current.has("d") || keys.current.has("arrowright")) {
+      movement.x += moveSpeed;
+    }
 
+    // Only update if there's actual movement
     if (movement.length() > 0) {
-      movement.normalize().multiplyScalar(moveSpeed);
       updatePosition(movement);
     }
   });
 
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      e.preventDefault(); // Prevent browser scrolling
-      keys.current.add(e.key.toLowerCase());
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Normalize key to lowercase and handle arrow keys
+      const key = event.key.toLowerCase();
+      keys.current.add(key);
+
+      // Prevent default only for game control keys
+      if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) {
+        event.preventDefault();
+      }
     };
 
-    const onKeyUp = (e: KeyboardEvent) => {
-      e.preventDefault();
-      keys.current.delete(e.key.toLowerCase());
+    const handleKeyUp = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      keys.current.delete(key);
+
+      // Prevent default only for game control keys
+      if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) {
+        event.preventDefault();
+      }
     };
 
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
+    // Add event listeners
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
-    // Cleanup event listeners
+    // Cleanup
     return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
 
