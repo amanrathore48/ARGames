@@ -19,8 +19,6 @@ export default function Scene({ playerId, mapType }: SceneProps) {
   camera.position.set(0, 15, 20);
   camera.lookAt(0, 0, 0);
 
-  console.log('Scene rendering with position:', playerPosition); // Debug log
-
   const renderMap = () => {
     switch (mapType) {
       case 'platforms':
@@ -112,7 +110,7 @@ export default function Scene({ playerId, mapType }: SceneProps) {
       {/* Map */}
       {renderMap()}
 
-      {/* Players - Position players on top of platform by setting y to 0.5 (platform height + ball radius) */}
+      {/* Players */}
       <Player position={new Vector3(playerPosition.x, 0.5, playerPosition.z)} />
       <MockPlayers playerId={playerId} />
       <Controls playerId={playerId} />

@@ -11,7 +11,7 @@ import { useLocation } from "wouter";
 export default function Game() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
-  const [location] = useLocation();
+  const [, setLocation] = useLocation(); 
 
   // Parse URL parameters
   const params = new URLSearchParams(window.location.search);
@@ -35,6 +35,7 @@ export default function Game() {
           description: "Failed to join the game",
           variant: "destructive",
         });
+        setLocation("/"); 
       },
     });
   }, []);
