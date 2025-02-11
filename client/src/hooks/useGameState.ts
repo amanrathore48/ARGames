@@ -25,15 +25,20 @@ export function useGameState(playerId: number) {
 
   const updatePosition = (movement: Vector3) => {
     const newPosition = playerPosition.current.clone();
-    // Only update X and Z, keep Y constant at 0.5
     newPosition.x += movement.x;
     newPosition.z += movement.z;
-    newPosition.y = 0.5; // Keep the ball on top of the platform
+    newPosition.y = 0.5; // Keep the ball on top of platform
 
     // Only update if within boundaries
     if (isWithinBoundaries(newPosition)) {
       playerPosition.current.copy(newPosition);
-      updatePositionMutation.mutate(newPosition);
+
+      // Send position update to server
+      updatePositionMutation.mutate(newPosition, {
+        onError: (error) => {
+          console.error("Failed to update position:", error);
+        }
+      });
     }
   };
 
