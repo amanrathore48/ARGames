@@ -110,8 +110,8 @@ export default function Scene({ playerId, mapType }: SceneProps) {
       {/* Map */}
       {renderMap()}
 
-      {/* Players */}
-      <Player position={playerPosition} />
+      {/* Players - Position players on top of platform by setting y to 0.5 (platform height + ball radius) */}
+      <Player position={new Vector3(playerPosition.x, 0.5, playerPosition.z)} />
       <MockPlayers playerId={playerId} />
       <Controls playerId={playerId} />
     </>
