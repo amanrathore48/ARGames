@@ -16,10 +16,11 @@ export default function MockPlayers({ playerId }: { playerId: number }) {
     mockPlayersRef.current.forEach((target, id) => {
       const player = players?.find((p) => p.id === id);
       if (player) {
+        // Keep Y position at 0.5 for all players
         target.lerp(
           new Vector3(
             Number(player.x),
-            Number(player.y),
+            0.5, // Fixed Y position on top of platform
             Number(player.z)
           ),
           0.1
@@ -38,7 +39,7 @@ export default function MockPlayers({ playerId }: { playerId: number }) {
           if (!mockPlayersRef.current.has(player.id)) {
             mockPlayersRef.current.set(
               player.id,
-              new Vector3(Number(player.x), Number(player.y), Number(player.z))
+              new Vector3(Number(player.x), 0.5, Number(player.z))
             );
           }
           return (
