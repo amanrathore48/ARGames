@@ -19,6 +19,8 @@ export default function Scene({ playerId, mapType }: SceneProps) {
   camera.position.set(0, 15, 20);
   camera.lookAt(0, 0, 0);
 
+  console.log('Scene rendering with position:', playerPosition); // Debug log
+
   const renderMap = () => {
     switch (mapType) {
       case 'platforms':
