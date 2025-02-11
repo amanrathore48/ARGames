@@ -1,10 +1,10 @@
 import { useThree } from "@react-three/fiber";
+import { Vector3 } from "three";
+import { useGameState } from "@/hooks/useGameState";
 import Player from "./Player";
 import Controls from "./Controls";
 import MockPlayers from "./MockPlayers";
 import Platform from "./Platform";
-import { useGameState } from "@/hooks/useGameState";
-import { Vector3 } from "three";
 
 interface SceneProps {
   playerId: number;
@@ -97,8 +97,6 @@ export default function Scene({ playerId, mapType }: SceneProps) {
   return (
     <>
       <color attach="background" args={["#2C3E50"]} />
-
-      {/* Lighting */}
       <ambientLight intensity={0.5} />
       <directionalLight
         position={[10, 10, 10]}
@@ -106,12 +104,8 @@ export default function Scene({ playerId, mapType }: SceneProps) {
         shadow-mapSize={[2048, 2048]}
         intensity={1.5}
       />
-
-      {/* Map */}
       {renderMap()}
-
-      {/* Players */}
-      <Player position={new Vector3(playerPosition.x, 0.5, playerPosition.z)} />
+      <Player position={playerPosition} />
       <MockPlayers playerId={playerId} />
       <Controls playerId={playerId} />
     </>
