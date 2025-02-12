@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useRef, useEffect } from "react";
-import { Vector3 } from "three";
-import { useGameState } from "@/hooks/useGameState";
+type Vector = { x: number; y: number; z: number };
+import { useGameState } from "@/hooks/usePlayerGameState";
 
 export default function Controls({ playerId }: { playerId: number }) {
   const keys = useRef(new Set<string>());
@@ -9,7 +9,7 @@ export default function Controls({ playerId }: { playerId: number }) {
 
   useFrame(() => {
     const moveSpeed = 0.3;
-    const movement = new Vector3(0, 0, 0);
+    const movement = { x: 0, y: 0, z: 0 };
 
     // Apply movement based on active keys
     if (keys.current.has("w") || keys.current.has("arrowup")) {

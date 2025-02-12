@@ -3,7 +3,7 @@ import { Vector3 } from "three";
 import { useGameState } from "@/hooks/useGameState";
 import Player from "./Player";
 import Controls from "./Controls";
-import MockPlayers from "./MockPlayers";
+
 import Platform from "./Platform";
 
 interface SceneProps {
@@ -13,7 +13,7 @@ interface SceneProps {
 
 export default function Scene({ playerId, mapType }: SceneProps) {
   const { camera } = useThree();
-  const { playerPosition } = useGameState(playerId);
+  const { playerPosition, otherPlayers } = useGameState(playerId);
 
   // Set camera position for better view
   camera.position.set(0, 15, 20);
@@ -106,7 +106,9 @@ export default function Scene({ playerId, mapType }: SceneProps) {
       />
       {renderMap()}
       <Player position={playerPosition} />
-      <MockPlayers playerId={playerId} />
+      {otherPlayers?.map((player) => (
+        <Player key={player.id} position={new Vector3(player.x, player.y, player.z)} />
+      ))}
       <Controls playerId={playerId} />
     </>
   );

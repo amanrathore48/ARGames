@@ -8,7 +8,7 @@ interface PlatformProps {
 
 export default function Platform({ position, size, color = "#34495E" }: PlatformProps) {
   return (
-    <mesh position={position} receiveShadow castShadow>
+    <mesh position={[position.x, position.y, position.z]} receiveShadow castShadow>
       <boxGeometry args={[size.x, size.y, size.z]} />
       <meshStandardMaterial color={color} />
     </mesh>

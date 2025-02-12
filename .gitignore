@@ -54,3 +54,6 @@ vite.config.ts.*
 # Temporary files
 *.log
 *.tar.gz
+
+# Replit 
+.replit
